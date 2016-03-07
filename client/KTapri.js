@@ -2,15 +2,17 @@ if (Meteor.isClient) {
 
     Meteor.subscribe("notes");
     Meteor.subscribe("users");
-    Meteor.subscribe("shareNotes");
-    Meteor.subscribe("learnNotes");
-
 
     angular.module('StickyApp', ['angular-meteor']);
-    angular.module('StickyApp').controller('StickyController', ['$meteor', function ($meteor) {
+    angular.module('StickyApp').controller('StickyController', ['$meteor', '$scope', function ($meteor, $scope) {
 
         this.notes = $meteor.collection(Notes);
-        this.learn = $meteor.subscribe("learnNotes");
+        this.learn = $meteor.collection(function(){
+           return Notes.find({type : 'learn'});
+        });
+        this.share = $meteor.collection(function(){
+           return Notes.find({type : 'share'});
+        });
         this.note = null;
         this.userId = Meteor.userId();
         this.user = Session.get("user");
@@ -22,10 +24,9 @@ if (Meteor.isClient) {
 
         var purposeStr = "";
          var prepareAndSendEmail = function (properties) {
-            var that = this;
             switch (properties.purpose){
                 case purposes.ADDNOTE:
-                    purposeStr = " wants to learn - ";
+                    purposeStr = " wants to "+properties.type+" - ";
                     break;
                 case purposes.ADDRESPONSE:
                     purposeStr = " has responded to your note - ";
@@ -65,7 +66,8 @@ if (Meteor.isClient) {
                 "fullName" : fullName,
                 "content" : this.contentToAdd,
                 "to" : ownerEmail,
-                "purpose" : purposes.ADDNOTE
+                "purpose" : purposes.ADDNOTE,
+                "type" : this.type
             });
 
             this.resetForm();

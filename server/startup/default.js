@@ -2,14 +2,6 @@ Meteor.publish('notes', function () {
     return Notes.find();
 });
 
-Meteor.publish('learnNotes', function () {
-    return Notes.find({type : 'learn'});
-});
-
-Meteor.publish('shareNotes', function () {
-    return Notes.find({type : 'share'});
-});
-
 Meteor.publish('users', function () {
     return Meteor.users.find();
 });

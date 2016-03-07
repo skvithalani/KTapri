@@ -1,0 +1,16 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">What is your reponse</h4>
+    </div>
+    <div class="modal-body">
+        <form role="form">
+            <div class="form-group">
+                    <textarea id="responseToAdd" class="form-control resize-none" placeholder="Write your response (optional)" rows="5" cols="20" ng-model="stickies.responseToAdd"></textarea>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary pull-left" ng-click="stickies.submitResponse()" data-dismiss="modal">Submit</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+<head>
+    <title>Knowledge Tapri</title>
+</head>
+
+<body>
+
+<div ng-controller="StickyController as stickies">
+
+    <ng-include src="'client/Tabs.html'"></ng-include>
+
+    <!--bootstrap modals for Responses and Notes-->
+    <div class="modal fade" id="editModal" role="dialog">
+        <div class="modal-dialog">
+            <ng-include src="'client/EditNoteModal.html'"></ng-include>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addModal" role="dialog">
+        <div class="modal-dialog">
+            <ng-include src="'client/AddNoteModal.html'"></ng-include>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addResponseModal" role="dialog">
+        <div class="modal-dialog">
+            <ng-include src="'client/AddResponseModal.html'"></ng-include>
+        </div>
+    </div>
+
+</div>
+</body>
+

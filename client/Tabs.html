@@ -1,0 +1,44 @@
+<div class="container" style="width: 100%;">
+    <ul class="nav nav-pills inline">
+        <li class="active" ng-init="stickies.type = 'learn'" ng-click="stickies.type = 'learn'"><a data-toggle="tab" href="#learnArea" class="skipCss">Learn</a></li>
+        <li><a ng-click="stickies.type = 'share'" data-toggle="tab" href="#learnArea" class="skipCss">Share</a></li>
+    </ul>
+    <ul class="nav nav-pills inline pull-right">
+        <li class="active" ng-if="!stickies.userId" ng-click="stickies.handleLogin()">
+            <a href="#" class="skipCss" data-toggle="tab"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+        </li>
+        <li ng-if="stickies.userId" ng-click="stickies.handleLogout()" class="active">
+            <a href="#" class="skipCss" data-toggle="tab"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="learnArea" class="tab-pane fade in active">
+            <button type="button" ng-if="stickies.userId" class="btn btn-default top-margin left-margin" title="Add" data-toggle="modal" data-target="#addModal">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+            <div id="learn">
+                <ul>
+                    <li ng-repeat="note in stickies.learn">
+                        <a href="#" ng-click="stickies.editNote(note)">
+                            <div class="inline pull-right btn-xs btn-link color-black" ng-if="note.responses.length == 0" ng-click="stickies.openAddResponseModal(note)">Add Response</div>
+                            <div class="inline pull-right btn-xs btn-link color-black" ng-if="note.responses.length != 0" data-toggle="modal" ng-click="stickies.seeResponses(note._id)">{{note.responses.length}} Response(s)</div>
+                            <h2 class="inline">{{note.title}}</h2>
+                            <p>{{note.content}}</p>
+                            <p>- {{note.name}}</p>
+                        </a>
+                        <div class="modal fade" ng-attr-id="{{'response_for_' + note._id}}" role="dialog">
+                            <div class="modal-dialog">
+                                <ng-include src="'client/SeeResponsesModal.html'"></ng-include>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="shareArea" class="tab-pane fade">
+            <h3>Menu 1</h3>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>
+    </div>
+</div>

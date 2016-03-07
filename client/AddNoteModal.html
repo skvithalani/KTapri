@@ -1,0 +1,20 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">What do you want to learn</h4>
+    </div>
+    <div class="modal-body">
+        <form role="form">
+            <div class="form-group">
+                <input id="titleToAdd" class="form-control" type="text" placeholder="Enter the title" ng-model="stickies.titleToAdd">
+            </div>
+            <div class="form-group">
+                <textarea id="contentToAdd" class="form-control resize-none" placeholder="Write your content" required rows="5" cols="20" ng-model="stickies.contentToAdd"></textarea>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary pull-left" ng-click="stickies.submitNote()" data-dismiss="modal">Submit</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+</div>

@@ -1,0 +1,53 @@
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand skipCss" href="#" data-toggle="tab">Knowledge Tapri</a>
+        </div>
+        <ul class="nav navbar-nav skipCss">
+            <li class="active"><a href="#learnArea" data-toggle="tab" class="skipCss">Learn</a></li>
+            <li><a href="#shareArea" class="skipCss">Share</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right skipCss">
+            <li ><a href="#" class="skipCss" data-toggle="tab">
+                <button type="button" class="btn btn-default btn-md" ng-if="!stickies.userId" ng-click="stickies.handleLogin()">
+                    <span class="glyphicon glyphicon-log-in"></span> Login
+                </button>
+                <button type="button" class="btn btn-default btn-md" ng-if="stickies.userId" ng-click="stickies.handleLogout()">
+                    <span ng-if="stickies.userId" ng-click="stickies.handleLogout()" class="glyphicon glyphicon-log-out"></span> Logout
+                </button>
+            </a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="tab-content" style="width: 100%">
+    <!--<div class="tab-content">-->
+        <div id="learnArea" class="tab-pane fade in active">
+            <button type="button" ng-if="stickies.userId" class="btn btn-default top-margin left-margin" title="Add" data-toggle="modal" data-target="#addModal">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+            <div id="learn">
+                <ul>
+                    <li ng-repeat="note in stickies.notes">
+                        <a href="#" ng-click="stickies.editNote(note)">
+                            <div class="inline pull-right btn-xs btn-link color-black" ng-if="note.responses.length == 0" ng-click="stickies.openAddResponseModal(note)">Add Response</div>
+                            <div class="inline pull-right btn-xs btn-link color-black" ng-if="note.responses.length != 0" data-toggle="modal" ng-click="stickies.seeResponses(note._id)">{{note.responses.length}} Response(s)</div>
+                            <h2 class="inline">{{note.title}}</h2>
+                            <p>{{note.content}}</p>
+                            <p>- {{note.name}}</p>
+                        </a>
+                        <div class="modal fade" ng-attr-id="{{'response_for_' + note._id}}" role="dialog">
+                            <div class="modal-dialog">
+                                <ng-include src="'client/SeeResponsesModal.html'"></ng-include>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="shareArea" class="tab-pane fade">
+            <h3>Menu 1</h3>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>
+    <!--</div>-->
+</div>

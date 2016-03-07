@@ -1,0 +1,41 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Responses for {{note.title}}</h4>
+    </div>
+
+    <div class="modal-body">
+
+        <button type="button" class="btn btn-xs btn-default bottom-margin" title="Add" ng-click="stickies.expand = true">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+
+        <div class="list-group">
+
+            <a href="#" class="list-group-item skipCss bottom-margin" ng-show="stickies.expand">
+                <p class="pull-right">
+                    <span class="glyphicon glyphicon-saved" title="Save" ng-click="stickies.submitResponse(note)"></span>
+                    <span class="glyphicon glyphicon-remove" title="Close" ng-click="stickies.expand = false"></span>
+                </p>
+                <textarea id="responseToAdd" class="form-control resize-none" placeholder="Write your response (optional)" rows="5" cols="20" ng-model="stickies.responseToAdd"></textarea>
+            </a>
+
+            <a href="#" class="list-group-item skipCss" ng-repeat="response in note.responses.slice().reverse()">
+
+                <h5 class="list-group-item-heading inline">{{response.respondedBy}}</h5>
+                <p class="inline pull-right" ng-if="response.ownerId == stickies.userId">
+                    <span ng-attr-id="{{'Pencil_'+response._id}}" class="glyphicon glyphicon-pencil" title="Edit" ng-click="stickies.editResponse(response)"></span>
+                    <span ng-attr-id="{{'Save_'+response._id}}" class="glyphicon glyphicon-saved hide" title="Save" ng-click="stickies.saveResponse(response)"></span>
+                    <span class="glyphicon glyphicon-trash" title="Delete" ng-click="stickies.deleteResponse(note, response)"></span>
+                </p>
+
+                <p ng-attr-id="{{'Response_'+response._id}}" class="list-group-item-text">{{response.response}}</p>
+
+                <div ng-attr-id="{{'Edit_'+response._id}}" class="hide">
+                    <textarea ng-attr-id="{{'Text_'+response._id}}" class="form-control resize-none" placeholder="Write your response" rows="5" cols="20"></textarea>
+                </div>
+
+            </a>
+        </div>
+    </div>
+</div>

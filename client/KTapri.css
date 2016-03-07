@@ -1,0 +1,118 @@
+*{
+    margin:0;
+    padding:0;
+}
+body{
+    font-family:arial,sans-serif;
+    font-size:100%;
+    margin:3em;
+    background:#eaeaea;
+    /*color:#fff;*/
+}
+h2,p{
+    font-size:100%;
+    font-weight:normal;
+}
+ul,li{
+    list-style:none;
+}
+ul:not(.skipCss){
+    overflow:hidden;
+    padding:3em;
+}
+ul li a:not(.skipCss), ul li a:hover:not(.skipCss){
+    text-decoration: none;
+    color:#000;
+    background:#ffc;
+    display:block;
+    height:18em;
+    width:35em;
+    padding:1em;
+    overflow:auto;
+    margin-right: 40px;
+    margin-bottom: 40px;
+    -webkit-transform:rotate(-1deg);
+    -o-transform:rotate(-1deg);
+    -moz-transform:rotate(-1deg);
+    box-shadow: 1px 1px 3px #555;
+}
+
+ul li {
+    margin: 1em;
+    float: left;
+}
+
+ul li h2{
+    font-size: 140%;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+ul li p{
+    font-family: "Gloria Hallelujah", arial, sans-serif;
+    font-size: 130%;
+}
+
+ul li:nth-child(2n) a:not(.skipCss){
+    -o-transform:rotate(2deg);
+    -webkit-transform:rotate(2deg);
+    -moz-transform:rotate(2deg);
+    top:5px;
+    position:relative;
+    background:#cfc;
+}
+ul li:nth-child(3n) a:not(.skipCss){
+    position:relative;
+    background:#ccf;
+    -o-transform:rotate(-1deg);
+    -webkit-transform:rotate(-1deg);
+    -moz-transform:rotate(-1deg);
+    top:-5px;
+}
+ul li:nth-child(6n) a:not(.skipCss){
+    position:relative;
+    background:#ffc;
+    color:#000;
+    -o-transform:rotate(1deg);
+    -webkit-transform:rotate(1deg);
+    -moz-transform:rotate(1deg);
+    top:-3px;
+}
+ul li:nth-child(5n) a:not(.skipCss){
+    position:relative;
+    background:#ffdacc;
+    -o-transform:rotate(-2deg);
+    -webkit-transform:rotate(-2deg);
+    -moz-transform:rotate(-2deg);
+    top:3px;
+}
+
+.resize-none{
+    resize: none;
+}
+.inline{
+    display: inline-block;
+}
+.modal-body{
+    max-height: calc(100vh - 210px);
+    overflow-y : auto;
+}
+.color-black{
+    color: black;
+}
+.no-display{
+    display: none;
+}
+.bottom-margin{
+    margin-bottom: 15px;
+}
+.top-margin{
+    margin-top: 15px;
+}
+.left-margin{
+    margin-left: 35px;
+}
+/*.hovering:hover::before {*/
+    /*background-color: #c2c6cd;*/
+    /*border-radius: 3px;*/
+/*}*/

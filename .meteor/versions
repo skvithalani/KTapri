@@ -22,6 +22,7 @@ caching-compiler@1.0.0
 caching-html-compiler@1.0.2
 callback-hook@1.0.4
 check@1.1.0
+coffeescript@1.0.11
 dburles:mongo-collection-instances@0.3.4
 ddp@1.2.2
 ddp-client@1.2.1
@@ -65,7 +66,10 @@ oauth@1.1.6
 oauth2@1.1.5
 observe-sequence@1.0.7
 ordered-dict@1.0.4
+package-version-parser@3.0.4
 pbastowski:angular-babel@1.0.9
+practicalmeteor:chai@2.1.0_1
+practicalmeteor:loglevel@1.2.0_2
 promise@0.5.1
 random@1.0.5
 rate-limit@1.0.0
@@ -74,6 +78,11 @@ reactive-var@1.0.6
 reload@1.1.4
 retry@1.0.4
 routepolicy@1.0.6
+sanjo:jasmine@0.21.0
+sanjo:karma@3.1.1
+sanjo:long-running-child-process@1.1.5
+sanjo:meteor-files-helpers@1.2.0_1
+sanjo:meteor-version@1.0.0
 service-configuration@1.0.5
 session@1.1.1
 spacebars@1.0.7
@@ -87,5 +96,10 @@ u2622:persistent-session@0.4.4
 ui@1.0.8
 underscore@1.0.4
 url@1.0.5
+velocity:chokidar@1.2.0_1
+velocity:core@0.10.10
+velocity:meteor-internals@1.1.0_7
+velocity:meteor-stubs@1.1.1
+velocity:shim@0.1.0
 webapp@1.2.3
 webapp-hashing@1.0.5

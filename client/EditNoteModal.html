@@ -4,23 +4,23 @@
         <h4 class="modal-title">What do you want to learn</h4>
     </div>
     <div class="modal-body">
-        <form role="form" class="form-horizontal">
+        <form role="form" class="form-horizontal" name="editForm">
             <div class="form-group">
                 <h5><label for="titleToEdit" class="control-label col-sm-2">Title: </label></h5>
                 <div class="col-sm-9">
-                    <input id="titleToEdit" class="form-control" type="text" placeholder="Enter the title " ng-model="stickies.titleToEdit">
+                    <input id="titleToEdit" class="form-control" type="text" placeholder="Enter the title " ng-model="stickies.titleToEdit" required>
                 </div>
             </div>
             <div class="form-group">
                 <h5><label for="contentToEdit" class="control-label col-sm-2">Content: </label></h5>
                 <div class="col-sm-9">
-                    <textarea id="contentToEdit" class="form-control resize-none" placeholder="Write your content" rows="5" cols="20" ng-model="stickies.contentToEdit"></textarea>
+                    <textarea id="contentToEdit" class="form-control resize-none" placeholder="Write your content" rows="5" cols="20" ng-model="stickies.contentToEdit" required></textarea>
                 </div>
             </div>
         </form>
     </div>
     <div class="modal-footer">
-        <button type="submit" class="btn btn-primary pull-left" ng-click="stickies.saveNote();" data-dismiss="modal">Save</button>
+        <button type="submit" class="btn btn-primary pull-left" ng-click="stickies.saveNote();" data-dismiss="modal" ng-disabled="editForm.$invalid">Save</button>
         <button type="button" class="btn btn-danger" ng-click = "stickies.deleteNote();" data-dismiss="modal">Delete</button>
     </div>
 </div>

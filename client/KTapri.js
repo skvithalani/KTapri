@@ -4,83 +4,95 @@ if (Meteor.isClient) {
     Meteor.subscribe("users");
 
     angular.module('StickyApp', ['angular-meteor']);
-    angular.module('StickyApp').controller('StickyController', ['$meteor', '$scope', function ($meteor, $scope) {
+    angular.module('StickyApp').controller('StickyController', ['$meteor', function ($meteor) {
 
-        this.notes = $meteor.collection(Notes);
-        this.learn = $meteor.collection(function(){
-           return Notes.find({type : 'learn'});
-        });
-        this.share = $meteor.collection(function(){
-           return Notes.find({type : 'share'});
-        });
-        this.note = null;
-        this.userId = Meteor.userId();
-        this.user = Session.get("user");
-        this.fromResponses = false;
-        purposes = {
-          "ADDNOTE" : "ADDNOTE",
-          "ADDRESPONSE" : "ADDRESPONSE"
-        };
+        var that = this;
 
-        var purposeStr = "";
-         var prepareAndSendEmail = function (properties) {
-            switch (properties.purpose){
-                case purposes.ADDNOTE:
-                    purposeStr = " wants to "+properties.type+" - ";
-                    break;
-                case purposes.ADDRESPONSE:
-                    purposeStr = " has responded to your note - ";
-                    break;
+        (function initCollections() {
+            that.notes = $meteor.collection(Notes);
 
-            }
+            that.learn = $meteor.collection(function () {
+                return Notes.find({type: 'learn'});
+            });
+            that.share = $meteor.collection(function () {
+                return Notes.find({type: 'share'});
+            });
+        })();
 
-            var subject = properties.firstName + purposeStr + properties.title;
-            var content = "<p><strong>" + properties.fullName + "</strong> says "+ properties.content + "</p>";
-             if(properties.content == "" || properties.content == null){
-                 content = null;
-                 subject += " <EOM>"
-             }
-            Meteor.call('sendEmail', properties.to, subject, content);
-        };
+        (function initState (){
+            that.note = null;
+            that.userId = Meteor.userId();
+            that.user = Session.get("user");
+            that.fromResponses = false;
+        })();
 
-        this.submitNote = function(){
+        (function initEmailDetails(){
+
+            purposes = {
+                "ADDNOTE": "ADDNOTE",
+                "ADDRESPONSE": "ADDRESPONSE"
+            };
+
+            prepareAndSendEmail = function (properties) {
+                var content = function() {
+                    if(properties.content != "" && properties.content != null)
+                        return "<p><strong>" + properties.fullName + "</strong> says " + properties.content + "</p>";
+                    return null;
+                };
+
+                var subject = function(contentValue) {
+                    if (purposes.ADDNOTE == properties.purpose)
+                        return properties.firstName + " wants to " + properties.type + " - " + + properties.title;
+                    return properties.firstName +" has responded to your note - " + properties.title + (contentValue ? "" : " <EOM>");
+                };
+
+                var contentValue = content();
+                Meteor.call('sendEmail', properties.to, subject(contentValue), contentValue);
+            };
+        })();
+
+        this.submitNote = function () {
 
             var fullName = this.user.name;
             var ownerEmail = this.user.email;
-
-            this.notes.push({
-                title : this.titleToAdd,
-                content : this.contentToAdd,
-                name : fullName,
-                createdAt: new Date(),
-                updatedAt : new Date(),
-                responses : new Array(),
-                ownerId : this.userId,
-                ownerEmail : ownerEmail,
-                type : this.type
-            });
-
-            prepareAndSendEmail({
-                "firstName":this.user.given_name,
-                "title" : this.titleToAdd,
-                "fullName" : fullName,
-                "content" : this.contentToAdd,
-                "to" : ownerEmail,
-                "purpose" : purposes.ADDNOTE,
-                "type" : this.type
-            });
-
+            if (this.titleToAdd == null) {
+                BootstrapDialog.show({
+                    message: 'Title is Mandatory'
+                });
+            }
+            else {
+                this.notes.push({
+                    title: this.titleToAdd,
+                    content: this.contentToAdd,
+                    name: fullName,
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                    responses: new Array(),
+                    ownerId: this.userId,
+                    ownerEmail: ownerEmail,
+                    type: this.type
+                });
+                prepareAndSendEmail({
+                    "firstName": this.user.given_name,
+                    "title": this.titleToAdd,
+                    "fullName": fullName,
+                    "content": this.contentToAdd,
+                    "to": ownerEmail,
+                    "purpose": purposes.ADDNOTE,
+                    "type": this.type
+                });
+            }
             this.resetForm();
-
+            $('#addModal').modal('hide');
         };
 
-        this.resetForm = function(){
+        this.resetForm = function () {
             this.titleToAdd = '';
             this.contentToAdd = '';
         };
 
-        this.editNote = function(note){
-            if(!this.fromResponses && this.userId && this.userId === note.ownerId) {
+        this.editNote = function (note) {
+            if (!this.fromResponses && this.userId && this.userId === note.ownerId) {
                 this.titleToEdit = note.title;
                 this.contentToEdit = note.content;
                 this.noteId = note._id;
@@ -91,82 +103,82 @@ if (Meteor.isClient) {
 
         this.saveNote = function () {
             $updateNote = {
-                _id : this.noteId,
-                title : this.titleToEdit,
-                content : this.contentToEdit,
-                updatedAt : new Date()
+                _id: this.noteId,
+                title: this.titleToEdit,
+                content: this.contentToEdit,
+                updatedAt: new Date()
             };
             this.notes.save($updateNote);
         };
 
-        this.deleteNote= function(){
+        this.deleteNote = function () {
             $deleteNote = {
-                _id : this.noteId
+                _id: this.noteId
             };
             this.notes.remove($deleteNote);
         };
 
         this.openAddResponseModal = function (note) {
-            if(this.userId){
+            if (this.userId) {
                 this.note = note;
                 $('#addResponseModal').modal('show');
                 this.fromResponses = true;
             }
         };
 
-        this.submitResponse = function(note){
+        this.submitResponse = function (note) {
             note = note || this.note;
-            if(note.responses == null){
+            if (note.responses == null) {
                 note.responses = new Array();
             }
             var respondedByName = this.user.name;
             note.responses.push({
-                respondedBy : respondedByName,
-                response : this.responseToAdd,
-                ownerId : this.userId,
-                _id : Random.id(4),
-                createdAt : new Date()
+                respondedBy: respondedByName,
+                response: this.responseToAdd,
+                ownerId: this.userId,
+                _id: Random.id(4),
+                createdAt: new Date()
             });
 
             prepareAndSendEmail({
-                "firstName":this.user.given_name,
-                "title" : note.title,
-                "fullName" : respondedByName,
-                "content" : this.responseToAdd,
-                "to" : note.ownerEmail,
-                "purpose" : purposes.ADDRESPONSE
+                "firstName": this.user.given_name,
+                "title": note.title,
+                "fullName": respondedByName,
+                "content": this.responseToAdd,
+                "to": note.ownerEmail,
+                "purpose": purposes.ADDRESPONSE
             });
 
             this.resetResponseForm();
 
-            this.expand=false;
+            this.expand = false;
         };
 
-        this.resetResponseForm = function(){
+        this.resetResponseForm = function () {
             this.responseToAdd = '';
         };
 
-        this.editResponse = function(currentResponse){
-            if(this.userId && this.userId === currentResponse.ownerId) {
-                $('#Text_'+currentResponse._id).text(currentResponse.response);
-                $('#Response_'+currentResponse._id).addClass('hide');
-                $('#Edit_'+currentResponse._id).removeClass('hide');
-                $('#Save_'+currentResponse._id).removeClass('hide');
-                $('#Pencil_'+currentResponse._id).addClass('hide');
+        this.editResponse = function (currentResponse) {
+            if (this.userId && this.userId === currentResponse.ownerId) {
+                $('#Text_' + currentResponse._id).text(currentResponse.response);
+                $('#Response_' + currentResponse._id).addClass('hide');
+                $('#Edit_' + currentResponse._id).removeClass('hide');
+                $('#Save_' + currentResponse._id).removeClass('hide');
+                $('#Pencil_' + currentResponse._id).addClass('hide');
             }
         };
 
-        this.saveResponse = function(currentResponse){
-            currentResponse.response = $('#Text_'+currentResponse._id).val();
+        this.saveResponse = function (currentResponse) {
+            currentResponse.response = $('#Text_' + currentResponse._id).val();
             currentResponse.updatedAt = new Date();
-            $('#Response_'+currentResponse._id).removeClass('hide');
-            $('#Edit_'+currentResponse._id).addClass('hide');
-            $('#Save_'+currentResponse._id).addClass('hide');
-            $('#Pencil_'+currentResponse._id).removeClass('hide')
+            $('#Response_' + currentResponse._id).removeClass('hide');
+            $('#Edit_' + currentResponse._id).addClass('hide');
+            $('#Save_' + currentResponse._id).addClass('hide');
+            $('#Pencil_' + currentResponse._id).removeClass('hide')
         };
 
-        this.deleteResponse = function(note, currentResponse){
-            if(this.userId && this.userId === currentResponse.ownerId) {
+        this.deleteResponse = function (note, currentResponse) {
+            if (this.userId && this.userId === currentResponse.ownerId) {
                 var $indexOf = note.responses.indexOf(currentResponse);
                 note.responses.splice($indexOf, 1);
             }
@@ -175,20 +187,20 @@ if (Meteor.isClient) {
         this.seeResponses = function (noteId) {
             this.expand = false;
             this.responseToAdd = '';
-            $('#response_for_'+noteId).modal('show');
+            $('#response_for_' + noteId).modal('show');
             this.fromResponses = true;
         };
 
-        this.handleLogin = function (e, tmpl){
+        this.handleLogin = function (e, tmpl) {
             var that = this;
-            var checkEmail = function() {
+            var checkEmail = function () {
                 var domain = new RegExp("@thoughtworks.com");
                 var isThoughtworker = domain.test(Meteor.user().services.google.email);
 
                 if (isThoughtworker) {
                     that.userId = Meteor.userId();
                     that.user = Meteor.user().services.google;
-                    Session.setPersistent("user",that.user);
+                    Session.setPersistent("user", that.user);
                 }
                 else {
                     alert("Please login with Thoughtworks account");
@@ -198,7 +210,7 @@ if (Meteor.isClient) {
             Meteor.loginWithGoogle({
                 requestPermissions: ['email', 'profile']
             }, function (err) {
-                if(err) {
+                if (err) {
                     throw new Meteor.Error(Accounts.LoginCancelledError.numericError, 'Error');
                 } else {
                     checkEmail();
@@ -214,7 +226,7 @@ if (Meteor.isClient) {
                 }
                 else {
                     that.userId = null;
-                    Session.setPersistent("user",null);
+                    Session.setPersistent("user", null);
                 }
             })
         };

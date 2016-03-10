@@ -42,7 +42,7 @@ if (Meteor.isClient) {
 
                 var subject = function(contentValue) {
                     if (purposes.ADDNOTE == properties.purpose)
-                        return properties.firstName + " wants to " + properties.type + " - " + + properties.title;
+                        return properties.firstName + " wants to " + properties.type + " - " + properties.title;
                     return properties.firstName +" has responded to your note - " + properties.title + (contentValue ? "" : " <EOM>");
                 };
 
@@ -55,33 +55,28 @@ if (Meteor.isClient) {
 
             var fullName = this.user.name;
             var ownerEmail = this.user.email;
-            if (this.titleToAdd == null) {
-                BootstrapDialog.show({
-                    message: 'Title is Mandatory'
-                });
-            }
-            else {
-                this.notes.push({
-                    title: this.titleToAdd,
-                    content: this.contentToAdd,
-                    name: fullName,
-                    createdAt: new Date(),
-                    updatedAt: new Date(),
-                    responses: new Array(),
-                    ownerId: this.userId,
-                    ownerEmail: ownerEmail,
-                    type: this.type
-                });
-                prepareAndSendEmail({
-                    "firstName": this.user.given_name,
-                    "title": this.titleToAdd,
-                    "fullName": fullName,
-                    "content": this.contentToAdd,
-                    "to": ownerEmail,
-                    "purpose": purposes.ADDNOTE,
-                    "type": this.type
-                });
-            }
+            this.notes.push({
+                title: this.titleToAdd,
+                content: this.contentToAdd,
+                name: fullName,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+                responses: new Array(),
+                ownerId: this.userId,
+                ownerEmail: ownerEmail,
+                type: this.type
+            });
+
+            prepareAndSendEmail({
+                "firstName": this.user.given_name,
+                "title": this.titleToAdd,
+                "fullName": fullName,
+                "content": this.contentToAdd,
+                "to": ownerEmail,
+                "purpose": purposes.ADDNOTE,
+                "type": this.type
+            });
+
             this.resetForm();
             $('#addModal').modal('hide');
         };

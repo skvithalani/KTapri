@@ -26,31 +26,6 @@ if (Meteor.isClient) {
             that.fromResponses = false;
         })();
 
-        (function initEmailDetails(){
-
-            purposes = {
-                "ADDNOTE": "ADDNOTE",
-                "ADDRESPONSE": "ADDRESPONSE"
-            };
-
-            prepareAndSendEmail = function (properties) {
-                var content = function() {
-                    if(properties.content != "" && properties.content != null)
-                        return "<p><strong>" + properties.fullName + "</strong> says " + properties.content + "</p>";
-                    return null;
-                };
-
-                var subject = function(contentValue) {
-                    if (purposes.ADDNOTE == properties.purpose)
-                        return properties.firstName + " wants to " + properties.type + " - " + properties.title;
-                    return properties.firstName +" has responded to your note - " + properties.title + (contentValue ? "" : " <EOM>");
-                };
-
-                var contentValue = content();
-                Meteor.call('sendEmail', properties.to, subject(contentValue), contentValue);
-            };
-        })();
-
         this.submitNote = function () {
 
             var fullName = this.user.name;
@@ -67,13 +42,13 @@ if (Meteor.isClient) {
                 type: this.type
             });
 
-            prepareAndSendEmail({
+            Ktapri.prepareAndSendEmail({
                 "firstName": this.user.given_name,
                 "title": this.titleToAdd,
                 "fullName": fullName,
                 "content": this.contentToAdd,
                 "to": ownerEmail,
-                "purpose": purposes.ADDNOTE,
+                "purpose": Ktapri.purposes.ADDNOTE,
                 "type": this.type
             });
 
@@ -135,13 +110,13 @@ if (Meteor.isClient) {
                 createdAt: new Date()
             });
 
-            prepareAndSendEmail({
+            Ktapri.prepareAndSendEmail({
                 "firstName": this.user.given_name,
                 "title": note.title,
                 "fullName": respondedByName,
                 "content": this.responseToAdd,
                 "to": note.ownerEmail,
-                "purpose": purposes.ADDRESPONSE
+                "purpose": Ktapri.purposes.ADDRESPONSE
             });
 
             this.resetResponseForm();

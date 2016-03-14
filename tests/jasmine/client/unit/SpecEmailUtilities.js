@@ -34,6 +34,9 @@ describe("Email Utilities", function () {
            expect(Ktapri.content("Saloni Vithalani", "RTO Pune"))
                .toEqual("<p><strong>Saloni Vithalani</strong> says RTO Pune</p>");
         });
-        
+    });
+
+    describe("subject", function () {
+       it("")
     });
 });

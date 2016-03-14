@@ -41,19 +41,17 @@ Ktapri.content = function(fullName, content) {
 };
 
 Ktapri.subject = function(properties, contentValue) {
-
-    if(!properties || !properties.purpose) return null;
-
     if (isPurposeAddNote(properties.purpose))
         return subjectToAddNote(properties);
     return subjectToAddResponse(properties, contentValue);
 };
 
 Ktapri.prepareAndSendEmail = function (properties) {
-    var contentValue = Ktapri.content(properties.fullName, properties.content);
-    var subject = Ktapri.subject(properties, contentValue);
-    Meteor.call('sendEmail',
-                properties.to,
-                subject,
-                contentValue);
+    if(properties){
+        var contentValue = Ktapri.content(properties.fullName, properties.content);
+        Meteor.call('sendEmail',
+                    properties.to,
+                    Ktapri.subject(properties, contentValue),
+                    contentValue);
+    }
 };

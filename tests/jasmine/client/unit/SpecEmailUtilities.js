@@ -37,10 +37,6 @@ describe("Email Utilities", function () {
     });
 
     describe("subject", function () {
-        it("should be null when properties passed is null",function(){
-            expect(Ktapri.subject()).toBeNull();
-        });
-
         it("should be null when purpose is passed null", function(){
            expect(Ktapri.subject({
                "purpose" : null
@@ -109,6 +105,42 @@ describe("Email Utilities", function () {
                 "firstName": "Saloni",
                 "title" : "recipe",
             }, "content")).toBe("Saloni has responded to your note - recipe");
+        });
+    });
+
+    describe("prepareAndSendEmail", function () {
+
+        beforeEach(function () {
+            spyOn(Meteor, "call");
+        });
+
+        it("should not call sendEmail when properties is undefined",function(){
+            Ktapri.prepareAndSendEmail();
+            expect(Meteor.call).not.toHaveBeenCalled();
+        });
+
+        it("should call sendEmail when properties is defined",function(){
+            Ktapri.prepareAndSendEmail({});
+            expect(Meteor.call).toHaveBeenCalledWith("sendEmail", undefined, null, null);
+        });
+
+        it("should call sendEmail with properties TO, subject and contentValue when proprties is passed", function () {
+
+            var properties = {
+                "firstName": "Saloni",
+                "title": "recipe",
+                "fullName": "Saloni Vithalani",
+                "content": "content",
+                "to": "TO",
+                "purpose": Ktapri.purposes.ADDNOTE,
+                "type": "learn"
+            };
+
+            var contentValue = Ktapri.content(properties.fullName, properties.content);
+            var subject = Ktapri.subject(properties, contentValue);
+
+            Ktapri.prepareAndSendEmail(properties);
+            expect(Meteor.call).toHaveBeenCalledWith("sendEmail", properties.to, subject, contentValue);
         });
     });
 });

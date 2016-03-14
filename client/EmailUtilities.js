@@ -4,7 +4,7 @@ Ktapri.purposes = {
 };
 
 Ktapri.content = function(fullName, content) {
-    if(content != "" && content != null)
+    if(Ktapri.stripToNull(content) && Ktapri.stripToNull(fullName))
         return "<p><strong>" + fullName + "</strong> says " + content + "</p>";
     return null;
 };

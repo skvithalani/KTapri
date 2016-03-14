@@ -1,11 +1,7 @@
-stripToNull = function(str){
-    return str === "" ? null : str;
-};
-
 Meteor.methods({
     sendEmail: function (to, subject, html) {
 
-        if(stripToNull(to) && stripToNull(subject)){
+        if(Ktapri.stripToNull(to) && Ktapri.stripToNull(subject)){
 
             Email.send({
                 to: to,

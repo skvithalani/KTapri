@@ -26,6 +26,14 @@ describe("Email Utilities", function () {
             expect(Ktapri.content(null, "content")).toBeNull();
         });
 
+        it("should return null when firstName is blank and content is defined", function(){
+            expect(Ktapri.content("", "content")).toBeNull();
+        });
+
+        it("should return content string when content and firstname are defined", function(){
+           expect(Ktapri.content("Saloni Vithalani", "RTO Pune"))
+               .toEqual("<p><strong>Saloni Vithalani</strong> says RTO Pune</p>");
+        });
         
     });
 });

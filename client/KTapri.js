@@ -6,25 +6,7 @@ if (Meteor.isClient) {
     angular.module('StickyApp', ['angular-meteor']);
     angular.module('StickyApp').controller('StickyController', ['$meteor', function ($meteor) {
 
-        var that = this;
-
-        (function initCollections() {
-            that.notes = $meteor.collection(Notes);
-
-            that.learn = $meteor.collection(function () {
-                return Notes.find({type: 'learn'});
-            });
-            that.share = $meteor.collection(function () {
-                return Notes.find({type: 'share'});
-            });
-        })();
-
-        (function initState (){
-            that.note = null;
-            that.userId = Meteor.userId();
-            that.user = Session.get("user");
-            that.fromResponses = false;
-        })();
+        Ktapri.init(this, $meteor);
 
         this.submitNote = function () {
 

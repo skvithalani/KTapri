@@ -18,15 +18,15 @@ var EOM = function (contentValue) {
 };
 
 var subjectToAddNote = function(properties) {
-    if(!isDefined([properties.firstName, properties.type, properties.title]))
-        return null;
-    return properties.firstName + " wants to " + properties.type + " - " + properties.title;
+    if(isDefined([properties.firstName, properties.type, properties.title]))
+        return properties.firstName + " wants to " + properties.type + " - " + properties.title;
+    return null;
 };
 
 var subjectToAddResponse = function (properties, contentValue) {
-    if(!isDefined([properties.firstName, properties.title]))
-        return null;
-    return properties.firstName + " has responded to your note - " + properties.title + EOM(contentValue);
+    if(isDefined([properties.firstName, properties.title]))
+        return properties.firstName + " has responded to your note - " + properties.title + EOM(contentValue);
+    return null;
 };
 
 Ktapri.purposes = {

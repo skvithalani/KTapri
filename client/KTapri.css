@@ -6,6 +6,9 @@ body{
     font-family:arial,sans-serif;
     font-size:100%;
     margin:3em;
+    /*background: #c6ecd9;*/
+    /*background: #336699;*/
+    /*background: #008080;*/
     background:#eaeaea;
     /*color:#fff;*/
 }
@@ -23,7 +26,8 @@ ul:not(.skipCss){
 ul li a:not(.skipCss), ul li a:hover:not(.skipCss){
     text-decoration: none;
     color:#000;
-    background:#ffc;
+    background:#ffffb3;
+    /*background:#ffc;*/
     display:block;
     height:18em;
     width:35em;
@@ -59,7 +63,8 @@ ul li:nth-child(2n) a:not(.skipCss){
     -moz-transform:rotate(2deg);
     top:5px;
     position:relative;
-    background:#cfc;
+    background:#b3ffb1;
+    /*background:#cfc;*/
 }
 ul li:nth-child(3n) a:not(.skipCss){
     position:relative;
@@ -71,7 +76,8 @@ ul li:nth-child(3n) a:not(.skipCss){
 }
 ul li:nth-child(6n) a:not(.skipCss){
     position:relative;
-    background:#ffc;
+    /*background:#ff6666;*/
+    background:#ffffb3;
     color:#000;
     -o-transform:rotate(1deg);
     -webkit-transform:rotate(1deg);
@@ -80,7 +86,9 @@ ul li:nth-child(6n) a:not(.skipCss){
 }
 ul li:nth-child(5n) a:not(.skipCss){
     position:relative;
-    background:#ffdacc;
+    /*background:#d9b3ff;*/
+    background:#ffc7b3;
+    /*background:#ffdacc;*/
     -o-transform:rotate(-2deg);
     -webkit-transform:rotate(-2deg);
     -moz-transform:rotate(-2deg);

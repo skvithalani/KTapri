@@ -3,38 +3,35 @@ if (Meteor.isClient) {
     Meteor.subscribe("notes");
     Meteor.subscribe("users");
 
-    angular.module('StickyApp', ['angular-meteor']);
-    angular.module('StickyApp').controller('StickyController', ['$meteor', function ($meteor) {
+    var app = angular.module('StickyApp', ['angular-meteor']);
+    app.controller('StickyController', ['$meteor', function ($meteor) {
 
         Ktapri.init(this, $meteor);
 
         this.submitNote = function () {
 
-            var fullName = this.user.name;
-            var ownerEmail = this.user.email;
             this.notes.push({
                 title: this.titleToAdd,
                 content: this.contentToAdd,
-                name: fullName,
+                name: this.user.name,
+                ownerId: this.userId,
+                ownerEmail: this.user.email,
+                type: this.type,
                 createdAt: new Date(),
                 updatedAt: new Date(),
                 responses: new Array(),
-                ownerId: this.userId,
-                ownerEmail: ownerEmail,
-                type: this.type
             });
 
             Ktapri.prepareAndSendEmail({
                 "firstName": this.user.given_name,
                 "title": this.titleToAdd,
-                "fullName": fullName,
+                "fullName": this.user.name,
                 "content": this.contentToAdd,
-                "to": ownerEmail,
+                "to": this.user.email,
                 "purpose": Ktapri.purposes.ADDNOTE,
                 "type": this.type
             });
 
-            this.resetForm();
             $('#addModal').modal('hide');
         };
 
@@ -83,9 +80,8 @@ if (Meteor.isClient) {
             if (note.responses == null) {
                 note.responses = new Array();
             }
-            var respondedByName = this.user.name;
             note.responses.push({
-                respondedBy: respondedByName,
+                respondedBy: this.user.name,
                 response: this.responseToAdd,
                 ownerId: this.userId,
                 _id: Random.id(4),
@@ -95,19 +91,13 @@ if (Meteor.isClient) {
             Ktapri.prepareAndSendEmail({
                 "firstName": this.user.given_name,
                 "title": note.title,
-                "fullName": respondedByName,
+                "fullName": this.user.name,
                 "content": this.responseToAdd,
                 "to": note.ownerEmail,
                 "purpose": Ktapri.purposes.ADDRESPONSE
             });
 
-            this.resetResponseForm();
-
             this.expand = false;
-        };
-
-        this.resetResponseForm = function () {
-            this.responseToAdd = '';
         };
 
         this.editResponse = function (currentResponse) {
@@ -141,6 +131,11 @@ if (Meteor.isClient) {
             this.responseToAdd = '';
             $('#response_for_' + noteId).modal('show');
             this.fromResponses = true;
+        };
+
+        this.addResponse = function () {
+            this.responseToAdd = '';
+            this.expand = true
         };
 
         this.handleLogin = function (e, tmpl) {

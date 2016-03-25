@@ -69,6 +69,7 @@ if (Meteor.isClient) {
 
         this.openAddResponseModal = function (note) {
             if (this.userId) {
+                this.responseToAdd = '';
                 this.note = note;
                 $('#addResponseModal').modal('show');
                 this.fromResponses = true;

@@ -1,0 +1,55 @@
+<body id="page-top" ng-controller="StickyController as stickies">
+
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="navbar-brand">Knowledge Tapri</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right right-margin">
+                <li ng-click="stickies.type = 'learn'" ng-class="{active : stickies.type == 'learn'}">
+                    <a href="#">Learn</a>
+                </li>
+                <li ng-click="stickies.type = 'share'" ng-class="{active : stickies.type == 'share'}">
+                    <a href="#">Share</a>
+                </li>
+                <li ng-if="!stickies.userId" ng-click="stickies.handleLogin()">
+                    <a href="#" class="skipCss" data-toggle="tab"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                </li>
+                <li ng-if="stickies.userId" ng-click="stickies.handleLogout()">
+                    <a href="#" class="skipCss" data-toggle="tab"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+
+<header>
+    <ng-include src="'client/Tabs.html'"></ng-include>
+
+    <!--bootstrap modals for Responses and Notes-->
+    <div class="modal fade" id="addModal" role="dialog">
+        <div class="modal-dialog">
+            <ng-include src="'client/AddNoteModal.html'"></ng-include>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editModal" role="dialog">
+        <div class="modal-dialog">
+            <ng-include src="'client/EditNoteModal.html'"></ng-include>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addResponseModal" role="dialog">
+        <div class="modal-dialog">
+            <ng-include src="'client/AddResponseModal.html'"></ng-include>
+        </div>
+    </div>
+</header>
+
+</body>

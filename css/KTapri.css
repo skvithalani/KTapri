@@ -2,28 +2,24 @@
     margin:0;
     padding:0;
 }
-body{
+html,body{
     font-family:arial,sans-serif;
-    font-size:100%;
-    margin:3em;
-    /*background: #c6ecd9;*/
-    /*background: #336699;*/
-    /*background: #008080;*/
-    background:#eaeaea;
-    /*color:#fff;*/
+    height: 100% !important;
+    /*margin:3em;*/
+    /*background:#eaeaea;*/
 }
 h2,p{
     font-size:100%;
     font-weight:normal;
 }
-ul,li{
+#notes-ul, li{
     list-style:none;
 }
-ul:not(.skipCss){
+#notes-ul:not(.skipCss){
     overflow:hidden;
     padding:3em;
 }
-ul li a:not(.skipCss), ul li a:hover:not(.skipCss){
+#notes-ul li a:not(.skipCss), #notes-ul li a:hover:not(.skipCss){
     text-decoration: none;
     color:#000;
     background:#ffffb3;
@@ -41,23 +37,23 @@ ul li a:not(.skipCss), ul li a:hover:not(.skipCss){
     box-shadow: 1px 1px 3px #555;
 }
 
-ul li {
+#notes-ul li {
     margin: 1em;
     float: left;
 }
 
-ul li h2{
+#notes-ul li h2{
     font-size: 140%;
     font-weight: bold;
     padding-bottom: 10px;
 }
 
-ul li p{
+#notes-ul li p{
     font-family: "Gloria Hallelujah", arial, sans-serif;
     font-size: 130%;
 }
 
-ul li:nth-child(2n) a:not(.skipCss){
+#notes-ul li:nth-child(2n) a:not(.skipCss){
     -o-transform:rotate(2deg);
     -webkit-transform:rotate(2deg);
     -moz-transform:rotate(2deg);
@@ -66,7 +62,7 @@ ul li:nth-child(2n) a:not(.skipCss){
     background:#b3ffb1;
     /*background:#cfc;*/
 }
-ul li:nth-child(3n) a:not(.skipCss){
+#notes-ul li:nth-child(3n) a:not(.skipCss){
     position:relative;
     background:#ccf;
     -o-transform:rotate(-1deg);
@@ -74,7 +70,7 @@ ul li:nth-child(3n) a:not(.skipCss){
     -moz-transform:rotate(-1deg);
     top:-5px;
 }
-ul li:nth-child(6n) a:not(.skipCss){
+#notes-ul li:nth-child(6n) a:not(.skipCss){
     position:relative;
     /*background:#ff6666;*/
     background:#ffffb3;
@@ -84,7 +80,7 @@ ul li:nth-child(6n) a:not(.skipCss){
     -moz-transform:rotate(1deg);
     top:-3px;
 }
-ul li:nth-child(5n) a:not(.skipCss){
+#notes-ul li:nth-child(5n) a:not(.skipCss){
     position:relative;
     /*background:#d9b3ff;*/
     background:#ffc7b3;
@@ -112,13 +108,25 @@ ul li:nth-child(5n) a:not(.skipCss){
     display: none;
 }
 .bottom-margin{
-    margin-bottom: 15px;
+    margin-bottom: 15px !important;
 }
 .top-margin{
     margin-top: 15px;
 }
 .left-margin{
     margin-left: 35px;
+}
+.right-margin{
+    margin-right: 10px !important;
+}
+
+.add-button{
+    right: 50px;
+    top: 80px;
+    float: right !important;
+    background: none !important;
+    color: white !important;
+    position: fixed;
 }
 /*.hovering:hover::before {*/
     /*background-color: #c2c6cd;*/

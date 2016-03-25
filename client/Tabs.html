@@ -1,24 +1,11 @@
-<div class="container" style="width: 100%;">
-    <ul class="nav nav-tabs inline">
-        <li class="active" ng-click="stickies.type = 'learn'"><a data-toggle="tab" class="skipCss">Learn</a></li>
-        <li><a ng-click="stickies.type = 'share'" data-toggle="tab" class="skipCss">Share</a></li>
-    </ul>
-    <ul class="nav nav-tabs inline pull-right">
-        <li class="active" ng-if="!stickies.userId" ng-click="stickies.handleLogin()">
-            <a href="#" class="skipCss" data-toggle="tab"><span class="glyphicon glyphicon-log-in"></span> Login</a>
-        </li>
-        <li ng-if="stickies.userId" ng-click="stickies.handleLogout()" class="active">
-            <a href="#" class="skipCss" data-toggle="tab"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
-        </li>
-    </ul>
-
+<div class="container" style="width: 100%; padding-top: 70px;">
     <div class="tab-content">
         <div class="tab-pane fade in active">
-            <button type="button" ng-if="stickies.userId" class="btn btn-default top-margin left-margin" title="Add" data-toggle="modal" ng-click = "stickies.resetForm()" data-target="#addModal">
+            <a ng-if="stickies.userId" class="btn btn-default add-button" title="Add" data-toggle="modal" ng-click = "stickies.resetForm()" data-target="#addModal">
                 <span class="glyphicon glyphicon-plus"></span>
-            </button>
-            <ul>
-                <li ng-repeat="note in stickies.notes | filter : stickies.type | orderBy : '-createdAt'">
+            </a>
+            <ul id="notes-ul">
+                <li ng-repeat="note in stickies.notes | filter : stickies.type | orderBy : 'createdAt'">
                     <a href="#" ng-click="stickies.editNote(note)">
                         <div class="inline pull-right btn-xs btn-link color-black" ng-if="note.responses.length == 0" ng-click="stickies.openAddResponseModal(note)">Add Response</div>
                         <div class="inline pull-right btn-xs btn-link color-black" ng-if="note.responses.length != 0" data-toggle="modal" ng-click="stickies.seeResponses(note._id)">{{note.responses.length}} Response(s)</div>

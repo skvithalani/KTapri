@@ -20,7 +20,7 @@
                 <textarea id="responseToAdd" class="form-control resize-none" placeholder="Write your response (optional)" rows="5" cols="20" ng-model="stickies.responseToAdd"></textarea>
             </a>
 
-            <a href="#" class="list-group-item skipCss" ng-repeat="response in note.responses.slice().reverse()">
+            <a href="#" class="list-group-item skipCss" ng-repeat="response in note.responses | orderBy : '-createdAt'">
 
                 <h5 class="list-group-item-heading inline">{{response.respondedBy}}</h5>
                 <p class="inline pull-right" ng-if="response.ownerId == stickies.userId">

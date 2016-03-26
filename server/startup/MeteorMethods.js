@@ -16,7 +16,6 @@ Meteor.methods({
 
     submitNote : function (note) {
         Notes.insert(note);
-        console.log("in here" + note);
     },
 
     updateNote : function (identifier, set) {

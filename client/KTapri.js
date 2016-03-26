@@ -10,7 +10,7 @@ if (Meteor.isClient) {
 
         this.submitNote = function () {
 
-            this.notes.push({
+            Meteor.call("submitNote", {
                 title: this.titleToAdd,
                 content: this.contentToAdd,
                 name: this.user.name,
@@ -51,20 +51,17 @@ if (Meteor.isClient) {
         };
 
         this.saveNote = function () {
-            $updateNote = {
-                _id: this.noteId,
-                title: this.titleToEdit,
-                content: this.contentToEdit,
-                updatedAt: new Date()
-            };
-            this.notes.save($updateNote);
+            Meteor.call("updateNote",
+                        {_id: this.noteId},
+                        {
+                            title: this.titleToEdit,
+                            content: this.contentToEdit,
+                            updatedAt: new Date()
+                    });
         };
 
         this.deleteNote = function () {
-            $deleteNote = {
-                _id: this.noteId
-            };
-            this.notes.remove($deleteNote);
+            Meteor.call("removeNote", {_id: this.noteId});
         };
 
         this.openAddResponseModal = function (note) {
@@ -81,7 +78,7 @@ if (Meteor.isClient) {
             if (note.responses == null) {
                 note.responses = new Array();
             }
-            note.responses.push({
+            Meteor.call("addResponse", note, {
                 respondedBy: this.user.name,
                 response: this.responseToAdd,
                 ownerId: this.userId,

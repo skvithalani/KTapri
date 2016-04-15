@@ -9,7 +9,6 @@ if (Meteor.isClient) {
         Ktapri.init(this, $meteor);
 
         this.submitNote = function () {
-
             Meteor.call("submitNote", {
                 title: this.titleToAdd,
                 content: this.contentToAdd,
@@ -41,7 +40,7 @@ if (Meteor.isClient) {
         };
 
         this.editNote = function (note) {
-            if (!this.fromResponses && this.userId && this.userId === note.ownerId) {
+            if (!this.fromResponses && Meteor.user() && this.userId && this.userId === note.ownerId) {
                 this.titleToEdit = note.title;
                 this.contentToEdit = note.content;
                 this.noteId = note._id;
@@ -65,7 +64,7 @@ if (Meteor.isClient) {
         };
 
         this.openAddResponseModal = function (note) {
-            if (this.userId) {
+            if (Meteor.user() && this.userId) {
                 this.responseToAdd = '';
                 this.note = note;
                 $('#addResponseModal').modal('show');
@@ -99,7 +98,7 @@ if (Meteor.isClient) {
         };
 
         this.editResponse = function (currentResponse) {
-            if (this.userId && this.userId === currentResponse.ownerId) {
+            if (Meteor.user() && this.userId && this.userId === currentResponse.ownerId) {
                 $('#Text_' + currentResponse._id).text(currentResponse.response);
                 $('#Response_' + currentResponse._id).addClass('hide');
                 $('#Edit_' + currentResponse._id).removeClass('hide');
@@ -118,17 +117,19 @@ if (Meteor.isClient) {
         };
 
         this.deleteResponse = function (note, currentResponse) {
-            if (this.userId && this.userId === currentResponse.ownerId) {
+            if (Meteor.user() && this.userId && this.userId === currentResponse.ownerId) {
                 var $indexOf = note.responses.indexOf(currentResponse);
                 note.responses.splice($indexOf, 1);
             }
         };
 
         this.seeResponses = function (noteId) {
-            this.expand = false;
-            this.responseToAdd = '';
-            $('#response_for_' + noteId).modal('show');
-            this.fromResponses = true;
+            if(Meteor.user()){
+                this.expand = false;
+                this.responseToAdd = '';
+                $('#response_for_' + noteId).modal('show');
+                this.fromResponses = true;
+            }
         };
 
         this.addResponse = function () {

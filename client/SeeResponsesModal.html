@@ -6,7 +6,7 @@
 
     <div class="modal-body">
 
-        <button type="button" class="btn btn-xs btn-default bottom-margin" title="Add" ng-click="stickies.addResponse()">
+        <button type="button" class="btn btn-xs btn-default bottom-margin" ng-if="stickies.userId" title="Add" ng-click="stickies.addResponse()">
             <span class="glyphicon glyphicon-plus"></span>
         </button>
 

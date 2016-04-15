@@ -95,7 +95,7 @@ describe("Email Utilities", function () {
             expect(Ktapri.subject({
                 "purpose" : Ktapri.purposes.ADDRESPONSE,
                 "firstName": "Saloni",
-                "title" : "recipe",
+                "title" : "recipe"
             })).toBe("Saloni has responded to your note - recipe <EOM>");
         });
 

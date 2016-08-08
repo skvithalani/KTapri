@@ -25,3 +25,4 @@ u2622:persistent-session
 random
 sanjo:jasmine
 angular:angular-mocks
+iron:router

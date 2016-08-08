@@ -20,7 +20,7 @@
                     <a href="#" class="skipCss" data-toggle="tab"><span class="glyphicon glyphicon-log-in"></span> Login</a>
                 </li>
                 <li ng-if="stickies.userId" ng-click="stickies.handleLogout()">
-                    <a href="#" class="skipCss" data-toggle="tab"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+                    <a href="#" class="skipCss" data-toggle="tab">Hi {{stickies.user.given_name}}<span class="glyphicon glyphicon-log-out" style="padding-left: 10px"></span> Logout</a>
                 </li>
             </ul>
         </div>

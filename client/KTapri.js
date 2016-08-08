@@ -110,10 +110,7 @@ if (Meteor.isClient) {
         this.saveResponse = function (currentResponse) {
             currentResponse.response = $('#Text_' + currentResponse._id).val();
             currentResponse.updatedAt = new Date();
-            $('#Response_' + currentResponse._id).removeClass('hide');
-            $('#Edit_' + currentResponse._id).addClass('hide');
-            $('#Save_' + currentResponse._id).addClass('hide');
-            $('#Pencil_' + currentResponse._id).removeClass('hide')
+            displayResponses(currentResponse);
         };
 
         this.deleteResponse = function (note, currentResponse) {
@@ -123,10 +120,21 @@ if (Meteor.isClient) {
             }
         };
 
-        this.seeResponses = function (noteId) {
+        var displayResponses = function (currentResponse) {
+            $('#Response_' + currentResponse._id).removeClass('hide');
+            $('#Edit_' + currentResponse._id).addClass('hide');
+            $('#Save_' + currentResponse._id).addClass('hide');
+            $('#Pencil_' + currentResponse._id).removeClass('hide');
+        };
+
+        this.seeResponses = function (note) {
             if(Meteor.user()){
+                var noteId = note._id
                 this.expand = false;
                 this.responseToAdd = '';
+                for(i = 0; i < note.responses.length; i++){
+                    displayResponses(note.responses[i]);
+                }
                 $('#response_for_' + noteId).modal('show');
                 this.fromResponses = true;
             }
